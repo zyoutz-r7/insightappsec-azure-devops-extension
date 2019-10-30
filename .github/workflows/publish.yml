@@ -40,14 +40,15 @@ jobs:
       id: get-extension-name
       run: |
         echo ::set-output name=extension-name::$(ls *.vsix)
+        echo ::set-output name=base-name::$(basename *.vsix .vsix)
     - name: Create Release
       id: create_release
       uses: actions/create-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ steps.get-extension-name.outputs.base-name }}
+        release_name: ${{ steps.get-extension-name.outputs.base-name }}
         draft: false
         prerelease: false
     - name: Upload Release Asset
