@@ -59,6 +59,7 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ steps.get-extension-name.outputs.extension-name }}
         asset_name: ${{ steps.get-extension-name.outputs.extension-name }}
+        asset_content_type: application/octet-stream 
     - name: publish package
       run: |
         tfx extension publish --token ${{ secrets.VISUALSTUDIO_TOKEN }}
