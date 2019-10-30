@@ -2,9 +2,9 @@
     "manifestVersion": 1.0,
     "id": "rapid7-insightappsec-extension",
     "name": "Rapid7 InsightAppSec",
-    "version": "1.0.1",
-    "publisher": "rapid7",
-    "public" : true,
+    "version": "0.1.0",
+    "publisher": "ESCLab",
+    "public" : false,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
