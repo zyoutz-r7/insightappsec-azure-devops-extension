@@ -36,4 +36,30 @@ jobs:
     - name: build package
       run: |
         tfx extension create --manifest-globs vss-extension.json
+    - name: Get extension name
+      id: get-extension-name
+      run: |
+        echo ::set-output name=extension-name::$(ls *.vsix)
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ steps.get-extension-name.outputs.extension-name }}
+        asset_name: ${{ steps.get-extension-name.outputs.extension-name }}
+    - name: publish package
+      run: |
         tfx extension publish --token ${{ secrets.VISUALSTUDIO_TOKEN }}
+        
